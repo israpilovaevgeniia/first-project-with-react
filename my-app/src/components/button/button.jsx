@@ -1,8 +1,14 @@
 import "./button.css"
 
-const Button = () => {
+// eslint-disable-next-line react/prop-types
+const Button = ({ txt, onClick }) => {
+
     return (
-        <button className="button primary">Сохранить</button>
+        <button 
+        onClick={ onClick } 
+        className="button primary">
+            { txt }
+        </button>
     )
 }
 
