@@ -1,11 +1,11 @@
 import "./card-button.css"
 
 // eslint-disable-next-line react/prop-types
-function CardButton({ children, className, variant }) {
+function CardButton({ children, className, variant, onClick }) {
     const cls = `card-button ${variant || "" } ${className || ""}`
 
     return (
-        <button className={cls}>{ children }</button>
+        <button onClick={onClick} className={cls}>{ children }</button>
 
     )
 }

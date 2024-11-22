@@ -12,6 +12,7 @@
 }
 
 .white {
-    /* background-color: #fff; */
     color: rgb(157, 97, 255);
+    width: 123px;
+    height: 23px;
 }

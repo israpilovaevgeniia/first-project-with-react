@@ -13,7 +13,7 @@ function JournalItem(props) {
             <h2 className="journal-item__title">{ data.title }</h2>
             <div className="journal-item__body">
                 <p className="journal-item__date">{ formattedDate }</p>
-                <p className="journal-item__text">{ data.content }</p>
+                <p className="journal-item__text">{ data.post }</p>
             </div>
 
         </>
