@@ -1,9 +1,10 @@
-import { useEffect, useReducer, useRef } from "react"
+import { useContext, useEffect, useReducer, useRef } from "react"
 import styles from  "./journal-form.module.css"
 import Button from "../button/button"
 import Input from "../input/input"
 import cn from "classnames"
 import { FORM_INITIAL_STATE, formReducer } from "./journal-form-state"
+import { UserContext } from "../../context/user-context"
 
 // eslint-disable-next-line react/prop-types
 function JournalForm ({ onSubmit }) {
@@ -16,6 +17,7 @@ function JournalForm ({ onSubmit }) {
     const tagRef = useRef(null)
     const dateRef = useRef(null)
     const postRef = useRef(null)
+    const { userId } = useContext(UserContext)
 
     const focusError = () => {
         switch(true) {
@@ -67,52 +69,52 @@ function JournalForm ({ onSubmit }) {
         e.preventDefault()
         const formData = new FormData(e.target)
         const formValues = Object.fromEntries(formData)
-        dispatch({type: "SUBMIT", payload: formValues})
+        dispatch({type: "SUBMIT", payload: {...formValues, userId}})
     }
 
     return (
-        <form onSubmit={onSubmitForm} className={cn(styles.journalForm)}>
-            <Input 
-            variant={"inputStyleTitle"}
-            ref={titleRef}
-            name="title"
-            value={values.title}
-            type='text'
-            placeholder="Title"
-            onChange={handleChange} 
-            isValid={isValid.title}
-            />
-            <Input
-            variant={"inputStyleDate"}
-            ref={dateRef}
-            name="date" 
-            value={values.date}
-            type='date'
-            onChange={handleChange}
-            isValid={isValid.date}
-            />
-            <Input 
-            variant={"inputStyleTag"}
-            ref={tagRef}
-            name="tag"
-            value={values.tag} 
-            type='text'
-            placeholder="Метка"
-            onChange={handleChange}
-            isValid={isValid.tag}
-            />
-            <textarea 
-            ref={postRef} 
-            name="post" 
-            value={values.post}
-            cols={30} 
-            rows={10}
-            onChange={handleChange}
-            className={cn(styles.input, styles.inputStyleTextarea)}
-            ></textarea>
-             <Button className={cn(styles.btnFormSent)} txt={"Сохранить"}/>
-             <Button className={"white"} txt={"Удалить"}/>
-        </form>
+                    <form onSubmit={onSubmitForm} className={cn(styles.journalForm)}>
+                    <Input 
+                    variant={"inputStyleTitle"}
+                    ref={titleRef}
+                    name="title"
+                    value={values.title}
+                    type='text'
+                    placeholder="Title"
+                    onChange={handleChange} 
+                    isValid={isValid.title}
+                    />
+                    <Input
+                    variant={"inputStyleDate"}
+                    ref={dateRef}
+                    name="date" 
+                    value={values.date}
+                    type='date'
+                    onChange={handleChange}
+                    isValid={isValid.date}
+                    />
+                    <Input 
+                    variant={"inputStyleTag"}
+                    ref={tagRef}
+                    name="tag"
+                    value={values.tag} 
+                    type='text'
+                    placeholder="Метка"
+                    onChange={handleChange}
+                    isValid={isValid.tag}
+                    />
+                    <textarea 
+                    ref={postRef} 
+                    name="post" 
+                    value={values.post}
+                    cols={30} 
+                    rows={10}
+                    onChange={handleChange}
+                    className={cn(styles.input, styles.inputStyleTextarea)}
+                    ></textarea>
+                     <Button className={cn(styles.btnFormSent)} txt={"Сохранить"}/>
+                     <Button className={"white"} txt={"Удалить"}/>
+                </form>
     )
 
 }

@@ -1,4 +1,5 @@
 import "./button.css"
+import { memo } from "react"
 
 
 // eslint-disable-next-line react/prop-types
@@ -15,4 +16,4 @@ const Button = ({ className, txt, onClick }) => {
     )
 }
 
-export default Button
+export default memo(Button)

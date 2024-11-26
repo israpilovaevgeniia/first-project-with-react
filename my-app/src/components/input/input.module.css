@@ -27,6 +27,15 @@
     padding-left: 45px;
 }
 
+.inputStyleTextarea {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    width: 1104px;
+    height: 216px;
+    margin-bottom: 150px;
+}
+
 .invalid {
     border: 2px solid red;
 }
