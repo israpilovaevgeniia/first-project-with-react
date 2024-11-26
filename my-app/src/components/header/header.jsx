@@ -1,6 +1,6 @@
 import SelectUser from "../select-user/select-user"
 import Button from "../button/button"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 
 // eslint-disable-next-line react/prop-types
 function Header () {
@@ -10,7 +10,7 @@ function Header () {
         tag: null
     })
 
-    const onChangeHeaderTxt = () => {
+    const onChangeHeaderTxt = useCallback(() => {
         if(txt.tagType === "h2") {
             setTxt({
                 tagType: "p",
@@ -22,7 +22,7 @@ function Header () {
             tagType: "h2",
             tag: <h2>Основной текст</h2>
         })
-    }
+    }, [])
 
     return (
         <div className="header">
