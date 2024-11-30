@@ -7,19 +7,29 @@ import LeftPanel from './layout/left-panel/left-panel'
 import { useLocalStorage } from './hooks/use-localStorage.hook'
 import Header from './components/header/header'
 import { UserContextProvider } from './context/user-context'
+import { useState } from 'react'
  
 function App() {
   
-  const [data, setData] = useLocalStorage("journalItem ")
+  const [data, setData, deleteData] = useLocalStorage("journalItem")
+  const [selectedItem, setSelectedItem] = useState({})
 
   const addNewJournalItem = (formData) => {
     const newId = data.length + 1;
-    setData({
-      ...formData,
-      date: new Date(formData.date),
-      id: newId
-    },
-  ) 
+    const existItem = data.find((item) => item.id ===formData.id)
+    if(existItem) {
+      setData({
+        ...formData,
+        date: new Date(formData.date),
+      })
+    } else {
+      const newItem = {
+        ...formData,
+        date: new Date(formData.date),
+        id: newId
+      };
+      setData(newItem) 
+    }
 }
  
   return (
@@ -29,10 +39,10 @@ function App() {
        <LeftPanel>
          <Header/>
          <JournalAddButton variant={"primary"}/>
-         <JournalList data={ data }/>
+         <JournalList setSelectedItem={setSelectedItem} data={ data } onDelete={ deleteData }/>
         </LeftPanel>
        <Body>
-         <JournalForm onSubmit={addNewJournalItem}/>
+         <JournalForm selectedItem={selectedItem} onSubmit={addNewJournalItem}/>
        </Body>
       </UserContextProvider>
     </div>

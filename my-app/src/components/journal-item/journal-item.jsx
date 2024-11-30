@@ -1,11 +1,16 @@
 import "./journal-item.css"
 
-function JournalItem(props) {
+// eslint-disable-next-line react/prop-types
+function JournalItem({ data, onDelete }) {
     
     // eslint-disable-next-line react/prop-types
-    const {data} = props;
     // eslint-disable-next-line react/prop-types
     const formattedDate =  new Intl.DateTimeFormat("ru-Ru").format(data.date);
+
+    const handleDelete = () => {
+        // eslint-disable-next-line no-undef, react/prop-types
+        onDelete(data.id); 
+    };
     
 
     return (
@@ -15,7 +20,9 @@ function JournalItem(props) {
                 <p className="journal-item__date">{ formattedDate }</p>
                 <p className="journal-item__text">{ data.post }</p>
             </div>
-
+            <div onClick={handleDelete}>
+                <img src="/delete.svg" alt="Delete"/>
+            </div>
         </>
     )
 }

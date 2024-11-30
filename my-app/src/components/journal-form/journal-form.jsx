@@ -7,7 +7,7 @@ import { FORM_INITIAL_STATE, formReducer } from "./journal-form-state"
 import { UserContext } from "../../context/user-context"
 
 // eslint-disable-next-line react/prop-types
-function JournalForm ({ onSubmit }) {
+function JournalForm ({ onSubmit, selectedItem }) {
 
     const[state, dispatch] = useReducer(formReducer, FORM_INITIAL_STATE)
 
@@ -40,6 +40,10 @@ function JournalForm ({ onSubmit }) {
     }
 
     useEffect(() => {
+        dispatch({type: "SET_VALUE", payload: {...selectedItem}})
+    }, [selectedItem])
+
+    useEffect(() => {
         let timerId
         // eslint-disable-next-line no-unused-vars
         timerId = setTimeout(() => {
@@ -56,7 +60,7 @@ function JournalForm ({ onSubmit }) {
             onSubmit(state.values)
             dispatch({type: "RESET_VALUES"})
         }
-    }, [isFormReadyToSubmit])
+    }, [isFormReadyToSubmit, state.values, onSubmit])
 
 
     const handleChange = (e) => {
@@ -69,7 +73,12 @@ function JournalForm ({ onSubmit }) {
         e.preventDefault()
         const formData = new FormData(e.target)
         const formValues = Object.fromEntries(formData)
-        dispatch({type: "SUBMIT", payload: {...formValues, userId}})
+        dispatch({type: "SUBMIT", payload: {
+            ...formValues,
+             userId,
+             // eslint-disable-next-line react/prop-types
+             id: selectedItem.id || null
+            }})
     }
 
     return (
@@ -88,7 +97,7 @@ function JournalForm ({ onSubmit }) {
                     variant={"inputStyleDate"}
                     ref={dateRef}
                     name="date" 
-                    value={values.date}
+                    value={values.date ? new Date(values.date).toISOString().slice(0,10) : values.date}
                     type='date'
                     onChange={handleChange}
                     isValid={isValid.date}
@@ -113,7 +122,6 @@ function JournalForm ({ onSubmit }) {
                     className={cn(styles.input, styles.inputStyleTextarea)}
                     ></textarea>
                      <Button className={cn(styles.btnFormSent)} txt={"Сохранить"}/>
-                     <Button className={"white"} txt={"Удалить"}/>
                 </form>
     )
 

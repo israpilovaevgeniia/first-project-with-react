@@ -22,11 +22,20 @@ export function useLocalStorage(key) {
 
   const saveData = (newData) => {
     if(newData.id) {
-      const updatedDate = [...data, newData]
-      setData(updatedDate)
-      localStorage.setItem(key, JSON.stringify(updatedDate))
+      const isExistData = !!data.find((data) => data.id === newData.id)
+      const updatedData = isExistData
+      ? data.map((item) => (item.id === newData.id ? newData : item))
+      : [...data, {...newData, id: data.length + 1}]
+      setData(updatedData)
+      localStorage.setItem(key, JSON.stringify(updatedData))
     }
   }
 
-  return[data, saveData]
+  const deleteData = (id) => {
+    const updatedDate = data.filter(item => item.id !== id)
+    setData(updatedDate);
+    localStorage.setItem(key, JSON.stringify(updatedDate))
+  }
+
+  return[data, saveData, deleteData]
 }

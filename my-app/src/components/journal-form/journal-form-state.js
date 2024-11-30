@@ -11,6 +11,7 @@ export const FORM_INITIAL_STATE = {
         tag: "",
         post: "",
         userId: null,
+        id: null,
     },
     isFormReadyToSubmit: false,
 }

@@ -5,28 +5,26 @@ import "./journal-list.css"
 import { UserContext } from "../../context/user-context"
 
 // eslint-disable-next-line react/prop-types
-function JournalList ({ data, isView }) {
+function JournalList ({ data, onDelete, setSelectedItem }) {
+
   const { userId } = useContext(UserContext)
+
   const filteredData = useMemo(() => {
     // eslint-disable-next-line react/prop-types
     return data?.filter(item => item.userId === userId)
   }, [data, userId])
     // eslint-disable-next-line react/prop-types
-    if(!data.length) return <span>Not found data</span>
+    if(!filteredData.length) return <span>Not found data</span>
     return (
      <>
-     {isView ? "hello" : "bye"}
     {
         // eslint-disable-next-line react/prop-types
-        filteredData?.map((i) => {
-          return (
+        filteredData?.map((i) => (
             // eslint-disable-next-line react/jsx-key
-            <CardButton  key={i.id}>
-              <JournalItem data={i}/>
+            <CardButton onClick={() => setSelectedItem(i)}  key={i.id}>
+              <JournalItem data={i} onDelete={onDelete}/>
             </CardButton>
-          )
-        })
-    }
+        ))}
      </>
     )
 }
